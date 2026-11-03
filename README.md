@@ -21,11 +21,11 @@ course.
 
 1. Builds a channel of BAM files from one of two inputs:
    - `bam_from_file`: a parameter for a text file that contains BAM paths. 
-      In this repo, this will retrieve a csv file. The workflow reads it with
+      In this repository, this will retrieve a csv file. The workflow reads it with
      `splitCsv(header: true)` and takes the path in the `reads_bam` column
       of each row.
    - `bam_from_folder`: a parameter for a folder that contains BAM paths.
-      In this repo, this will retrieve `data/bam/*.bam`.
+      In this repository, this will retrieve `data/bam/*.bam`.
 
    If neither parameter is set, the run stops with an error.
 2. Indexes each BAM file via the process `SAMTOOLS_INDEX`.
@@ -45,7 +45,7 @@ course.
 | `nextflow.config` | Turns on Docker; profiles `tutorial` and `turnip` with inputs for testing |
 | `modules/samtools_index.nf` | Process `SAMTOOLS_INDEX` |
 | `modules/gatk_haplotypecaller.nf` | Process `GATK_HAPLOTYPECALLER` |
-| `data/samplesheet.csv` | Sample sheet adapted to reflect this repo |
+| `data/samplesheet.csv` | Sample sheet adapted to reflect this repository |
 | `data/bam/` | Empty files named after the three course BAM files |
 | `data/ref/` | Empty files named after the reference FASTA, its index and dictionary, and the intervals file |
 
@@ -71,7 +71,7 @@ results/
 └── vcf/   reads_<sample>.bam.vcf and reads_<sample>.bam.vcf.idx for each sample
 ```
 
-By default, Nextflow publishes these files as symbolic links into its
+The outputs in this repository follow Nextflow's default behaviour of publishing them as symbolic links into its
 `work/` directory.
 
 ## Running the workflow
@@ -79,14 +79,11 @@ By default, Nextflow publishes these files as symbolic links into its
 Requirements: Nextflow 25.10.2 or later with the v2 syntax parser (the
 default from Nextflow 26.04), and Docker.
 
-1. Replace the empty files in `data/ref/` with the course originals.
-2. Provide the BAM files for the chosen profile:
-   - `tutorial`: make the paths in `data/samplesheet.csv` point to the
-     original BAM files.
-   - `turnip`: replace the empty files in `data/bam/` with the original BAM
-     files.
-3. From the root of the repository, run one of:
-
+1. Replace the empty files in `data/ref/` and in `data/bam/` with the course originals.
+2. Choose a profile or create a new one:
+   - `tutorial`: get BAM files from csv file.
+   - `turnip`: get BAM files from data/bam folder.
+3. From the root of the repository, run one of the profiles:
 ```bash
 # BAM files listed in data/samplesheet.csv
 nextflow run genomics.nf -profile tutorial
@@ -125,7 +122,7 @@ Changes from the course material:
   the course's `indexed_bam`.
 - The files in `data/bam/` and `data/ref/` were replaced with empty files of
   the same names.
-- `data/samplesheet.csv` is unchanged.
+- `data/samplesheet.csv` was adapted to work with this repository.
 
 This repository is licensed under CC BY-NC-SA 4.0; the full text is in
 [LICENSE](LICENSE). It is not affiliated with or endorsed by Seqera.
