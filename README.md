@@ -5,6 +5,7 @@ HaplotypeCaller, written while working through Part 2 of Seqera's
 [Nextflow for Genomics](https://training.nextflow.io/latest/nf4_science/genomics/)
 course.
 
+
 > **Warning: the data files are empty.**
 > The files in `data/bam/` and `data/ref/` exist so that every path in the
 > code and configuration stays as written, but each file is empty. The
@@ -14,7 +15,9 @@ course.
 > [nextflow-io/training](https://github.com/nextflow-io/training), in the
 > folder `nf4-science/genomics/data/`.
 
+
 ## What the workflow does
+
 
 1. Builds a channel of BAM files from one of two inputs:
    - `bam_from_file`: a parameter for a text file that contains BAM paths. 
@@ -24,28 +27,25 @@ course.
    - `bam_from_folder`: a parameter for a folder that contains BAM paths.
       In this repo, this will retrieve `data/bam/*.bam`.
 
-   If both are set, `bam_from_file` is used. If neither is set, the run
-   stops with an error.
-2. Indexes each BAM file with `samtools index` (process `SAMTOOLS_INDEX`).
+   If neither parameter is set, the run stops with an error.
+2. Indexes each BAM file via the process `SAMTOOLS_INDEX`.
    The process emits each BAM file and its index together as a tuple, so
    every sample keeps its own index.
-3. Calls variants on each indexed BAM file with `gatk HaplotypeCaller`
-   (process `GATK_HAPLOTYPECALLER`), limited to the regions in the
-   intervals file.
-4. Publishes the BAM files with their indexes to `results/bam/` and the VCF
+3. Calls variants on each indexed BAM file via the process `GATK_HAPLOTYPECALLER`,
+   limited to the regions in the intervals file (.bed).
+5. Publishes the BAM files with their indexes to `results/bam/` and the VCF
    files with their indexes to `results/vcf/`.
 
-Nextflow processes the samples in parallel where it can.
 
 ## Repository contents
 
 | Path | Contents |
 |---|---|
-| `genomics.nf` | Workflow: parameters, input channel, process calls, published outputs |
-| `nextflow.config` | Turns on Docker; profiles `tutorial` and `turnip` with the default inputs |
+| `genomics.nf` | Main Workflow |
+| `nextflow.config` | Turns on Docker; profiles `tutorial` and `turnip` with inputs for testing |
 | `modules/samtools_index.nf` | Process `SAMTOOLS_INDEX` |
 | `modules/gatk_haplotypecaller.nf` | Process `GATK_HAPLOTYPECALLER` |
-| `data/samplesheet.csv` | The course's original samplesheet (columns `sample_id`, `reads_bam`) |
+| `data/samplesheet.csv` | The course's original samplesheet |
 | `data/bam/` | Empty files named after the three course BAM files |
 | `data/ref/` | Empty files named after the reference FASTA, its index and dictionary, and the intervals file |
 
@@ -53,23 +53,19 @@ Nextflow processes the samples in parallel where it can.
 
 | Parameter | Type | Description | `tutorial` profile | `turnip` profile |
 |---|---|---|---|---|
-| `bam_from_file` | `String` | Samplesheet (CSV) whose `reads_bam` column lists the BAM files | `data/samplesheet.csv` | not set |
-| `bam_from_folder` | `String` | Glob pattern that matches the BAM files | not set | `data/bam/*.bam` |
+| `bam_from_file` | `String` | A parameter for a text file that contains BAM paths | `data/samplesheet.csv` | not set |
+| `bam_from_folder` | `String` | A parameter for a folder that contains BAM paths | not set | `data/bam/*.bam` |
 | `reference` | `Path` | Reference genome FASTA | `data/ref/ref.fasta` | `data/ref/ref.fasta` |
 | `reference_index` | `Path` | FASTA index | `data/ref/ref.fasta.fai` | `data/ref/ref.fasta.fai` |
-| `reference_dict` | `Path` | Sequence dictionary | `data/ref/ref.dict` | `data/ref/ref.dict` |
+| `reference_dict` | `Path` | Reference sequence dictionary | `data/ref/ref.dict` | `data/ref/ref.dict` |
 | `intervals` | `Path` | Regions to call variants in | `data/ref/intervals.bed` | `data/ref/intervals.bed` |
 
-`nextflow.config` builds each profile path from `${projectDir}`, the folder
-that holds `genomics.nf`. `bam_from_file` and `bam_from_folder` default to
-an empty string, which means "not set". The four accessory files have no
-default and must be given.
 
-The paths inside `data/samplesheet.csv` are the course's originals. They
-point to the course's GitHub Codespaces environment
-(`/workspaces/training/nf4-science/genomics/data/bam/`).
+The paths inside `data/samplesheet.csv` have been altered from the course's originals to reflect this repo.
+
 
 ## Outputs
+
 
 ```
 results/
