@@ -1,4 +1,4 @@
-# nextflow-science-genomics
+# nf-science-genomics
 
 Per-sample variant calling with Nextflow, Samtools and GATK
 HaplotypeCaller, written while working through Part 2 of Seqera's
