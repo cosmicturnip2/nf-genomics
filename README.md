@@ -17,11 +17,12 @@ course.
 ## What the workflow does
 
 1. Builds a channel of BAM files from one of two inputs:
-   - `bam_from_file`: a samplesheet (CSV). The workflow reads it with
+   - `bam_from_file`: a parameter for a text file that contains BAM paths. 
+      In this repo, this will retrieve a csv file. The workflow reads it with
      `splitCsv(header: true)` and takes the path in the `reads_bam` column
-     of each row.
-   - `bam_from_folder`: a glob pattern that matches BAM files, such as
-     `data/bam/*.bam`.
+      of each row.
+   - `bam_from_folder`: a parameter for a folder that contains BAM paths.
+      In this repo, this will retrieve `data/bam/*.bam`.
 
    If both are set, `bam_from_file` is used. If neither is set, the run
    stops with an error.
