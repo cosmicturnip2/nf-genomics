@@ -45,7 +45,7 @@ course.
 | `nextflow.config` | Turns on Docker; profiles `tutorial` and `turnip` with inputs for testing |
 | `modules/samtools_index.nf` | Process `SAMTOOLS_INDEX` |
 | `modules/gatk_haplotypecaller.nf` | Process `GATK_HAPLOTYPECALLER` |
-| `data/samplesheet.csv` | The course's original samplesheet |
+| `data/samplesheet.csv` | Sample sheet adapted to reflect this repo |
 | `data/bam/` | Empty files named after the three course BAM files |
 | `data/ref/` | Empty files named after the reference FASTA, its index and dictionary, and the intervals file |
 
@@ -60,8 +60,6 @@ course.
 | `reference_dict` | `Path` | Reference sequence dictionary | `data/ref/ref.dict` | `data/ref/ref.dict` |
 | `intervals` | `Path` | Regions to call variants in | `data/ref/intervals.bed` | `data/ref/intervals.bed` |
 
-
-The paths inside `data/samplesheet.csv` have been altered from the course's originals to reflect this repo.
 
 
 ## Outputs
